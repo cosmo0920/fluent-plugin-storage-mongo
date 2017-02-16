@@ -1,5 +1,7 @@
 require 'mongo'
 require 'fluent/plugin/storage'
+require 'fluent/plugin/mongo_auth'
+require 'fluent/plugin/logger_support'
 
 module Fluent
   module Plugin
@@ -7,6 +9,10 @@ module Fluent
       Fluent::Plugin.register_storage('mongo', self)
 
       attr_reader :store # for test
+
+      include Fluent::Plugin::MongoAuthParams
+      include Fluent::Plugin::MongoAuth
+      include Fluent::Plugin::LoggerSupport
 
       config_param :path, :string, default: nil
       desc "MongoDB collection"
@@ -66,7 +72,10 @@ module Fluent
           @client_options[:ssl_verify] = @ssl_verify
           @client_options[:ssl_ca_cert] = @ssl_ca_cert
         end
+        configure_logger(@mongo_log_level)
+
         @client = client
+        @client = authenticate(@client)
       end
 
       def multi_workers_ready?
