@@ -41,10 +41,8 @@ Use _mongo_ type in store.
   # capped option is not implemented yet.
 
   # Set 'user' and 'password' for authentication
-  user handa
-  password shinobu
-
-  # Other buffer configurations here
+  user mongo
+  password passw0rd
 </store>
 ```
 
@@ -57,7 +55,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/cosmo0920/fluent-plugin-storage-mongo.
-
 
 ## License
 
