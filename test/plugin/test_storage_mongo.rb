@@ -77,7 +77,6 @@ class MongoStorageTest < Test::Unit::TestCase
       @p = @d.storage_create()
 
       assert_equal storage_path, @p.path
-      p @p.store
       assert @p.store.empty?
 
       assert_nil @p.get('key1')
