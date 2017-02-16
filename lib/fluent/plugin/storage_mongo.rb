@@ -159,7 +159,7 @@ module Fluent
         begin
           record = format_key(record)
 
-          @client[collection, @collection_options].replace_one({_id: @path}, record, {upsert: true})
+          @client[collection, @collection_options].update_one({_id: @path}, record, {upsert: true})
         rescue Mongo::Error::BulkWriteError => e
           log.warn "document is not inserted. Maybe this document is invalid as a BSON."
         rescue ArgumentError => e
