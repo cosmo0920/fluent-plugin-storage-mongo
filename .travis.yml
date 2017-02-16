@@ -1,0 +1,21 @@
+language: ruby
+rvm:
+  - 2.1
+  - 2.2
+  - 2.3.3
+  - 2.4.0
+
+before_install:
+  - gem install bundler
+
+script:
+  - bundle exec rake test
+
+addons:
+  apt:
+    sources:
+      - mongodb-upstart
+      - mongodb-3.0-precise
+    packages:
+      - mongodb-org-server
+      - mongodb-org-shell
