@@ -26,10 +26,10 @@ Or install it yourself as:
 
 ## Configuration
 
-Use _mongo_ type in store.
+Use _mongo_ type in storage.
 
 ```aconf
-<store>
+<storage>
   @type mongo
   database fluent
   collection test
@@ -43,7 +43,7 @@ Use _mongo_ type in store.
   # Set 'user' and 'password' for authentication
   user mongo
   password passw0rd
-</store>
+</storage>
 ```
 
 ## Development
