@@ -1,8 +1,12 @@
-# Fluent::Plugin::Storage::Mongo
+# Mongo Storage plugin for Fluent
 
 [![Build Status](https://travis-ci.org/cosmo0920/fluent-plugin-storage-mongo.svg?branch=master)](https://travis-ci.org/cosmo0920/fluent-plugin-storage-mongo)
 
-TODO: Delete this and the text above, and describe your gem
+fluent-plugin-storage-mongo is a fluentd plugin to store plugin state into mongodb.
+
+## Prerequisite
+
+* MongoDB 3.0 or later.
 
 ## Installation
 
@@ -20,9 +24,29 @@ Or install it yourself as:
 
     $ gem install fluent-plugin-storage-mongo
 
-## Usage
+## Configuration
 
-TODO: Write usage instructions here
+Use _mongo_ type in store.
+
+```aconf
+<store>
+  @type mongo
+  database fluent
+  collection test
+
+  # Following attibutes are optional
+  host fluenter
+  port 10000
+
+  # capped option is not implemented yet.
+
+  # Set 'user' and 'password' for authentication
+  user handa
+  password shinobu
+
+  # Other buffer configurations here
+</store>
+```
 
 ## Development
 
@@ -38,4 +62,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
