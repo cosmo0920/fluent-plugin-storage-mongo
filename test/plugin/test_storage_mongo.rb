@@ -85,6 +85,70 @@ class MongoStorageTest < Test::Unit::TestCase
       assert_equal({capped: true, size: 100}, @p.collection_options)
       assert_equal({database: database_name, ssl: false, write: {j: false}}, @p.client_options)
     end
+
+    test "with write concern" do
+      storage_path = @path
+      conf = config_element('ROOT', '', {}, [config_element('storage', '', {
+                                                              'path' => storage_path,
+                                                              'database' => database_name,
+                                                              'collection' => collection_name,
+                                                              'write_concern' => 2,
+                                                            }
+                                                           )])
+      @d.configure(conf)
+      @d.start
+      @p = @d.storage_create()
+
+      expected = {
+        ssl: false,
+        write: {
+          j: false,
+          w: 2,
+        },
+      }
+      assert_equal('fluent_test', @p.database)
+      assert_equal('test', @p.collection)
+      assert_equal('localhost', @p.host)
+      assert_equal(port, @p.port)
+      assert_equal({capped: false}, @p.collection_options)
+      assert_equal({database: database_name}.merge(expected), @p.client_options)
+    end
+
+    test "with journaled" do
+      storage_path = @path
+      conf = config_element('ROOT', '', {}, [config_element('storage', '', {
+                                                              'path' => storage_path,
+                                                              'database' => database_name,
+                                                              'collection' => collection_name,
+                                                              'journaled' => true,
+                                                            }
+                                                           )])
+      @d.configure(conf)
+      @d.start
+      @p = @d.storage_create()
+      expected = {
+        ssl: false,
+        write: {
+          j: true,
+        },
+      }
+      assert_equal({database: database_name}.merge(expected), @p.client_options)
+    end
+
+    test "with mongo_log_level" do
+      storage_path = @path
+      conf = config_element('ROOT', '', {}, [config_element('storage', '', {
+                                                              'path' => storage_path,
+                                                              'database' => database_name,
+                                                              'collection' => collection_name,
+                                                              'mongo_log_level' => 'fatal',
+                                                            }
+                                                           )])
+      @d.configure(conf)
+      @d.start
+      @p = @d.storage_create()
+      assert_equal('fatal', @p.mongo_log_level)
+    end
   end
 
   sub_test_case 'configured with path key' do
