@@ -61,6 +61,13 @@ module Fluent
           end
         end
 
+        if conf.has_key?('capped') and Fluent::Config.bool_value(conf['capped'])
+          raise Fluent::ConfigError, "'capped_size' parameter is required on <storage> of Mongo storage" unless conf.has_key?('capped_size')
+          @collection_options[:capped] = true
+          @collection_options[:size] = Fluent::Config.size_value(conf['capped_size'])
+          @collection_options[:max] = Fluent::Config.size_value(conf['capped_max']) if conf.has_key?('capped_max')
+        end
+
         @client_options[:write] = {j: @journaled}
         @client_options[:write].merge!({w: @write_concern}) unless @write_concern.nil?
         @client_options[:ssl] = @ssl

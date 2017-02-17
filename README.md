@@ -38,7 +38,9 @@ Use _mongo_ type in storage.
   host fluenter
   port 10000
 
-  # capped option is not implemented yet.
+  # Set 'capped true' if you want to use capped collection
+  capped true
+  capped_size 100m
 
   # Set 'user' and 'password' for authentication
   user mongo

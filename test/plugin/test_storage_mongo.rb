@@ -63,6 +63,30 @@ class MongoStorageTest < Test::Unit::TestCase
     end
   end
 
+  sub_test_case '#configure' do
+    test "with capped" do
+      storage_path = @path
+      conf = config_element('ROOT', '', {}, [config_element('storage', '', {
+                                                              'path' => storage_path,
+                                                              'database' => database_name,
+                                                              'collection' => collection_name,
+                                                              'capped' => true,
+                                                              'capped_size' => 100,
+                                                            }
+                                                           )])
+      @d.configure(conf)
+      @d.start
+      @p = @d.storage_create()
+
+      assert_equal('fluent_test', @p.database)
+      assert_equal('test', @p.collection)
+      assert_equal('localhost', @p.host)
+      assert_equal(port, @p.port)
+      assert_equal({capped: true, size: 100}, @p.collection_options)
+      assert_equal({database: database_name, ssl: false, write: {j: false}}, @p.client_options)
+    end
+  end
+
   sub_test_case 'configured with path key' do
     test 'works as storage which stores data into redis' do
       storage_path = @path
