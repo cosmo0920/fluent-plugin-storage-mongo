@@ -154,10 +154,10 @@ module Fluent
 
       def format_key(record)
         if @replace_dot_in_key_with
-          replace_key_of_hash(record, ".", @replace_dot_in_key_with)
+          record = replace_key_of_hash(record, ".", @replace_dot_in_key_with)
         end
         if @replace_dollar_in_key_with
-          replace_key_of_hash(record, /^\$/, @replace_dollar_in_key_with)
+          record = replace_key_of_hash(record, /^\$/, @replace_dollar_in_key_with)
         end
         record
       end
