@@ -31,6 +31,8 @@ module Fluent
       config_param :replace_dot_in_key_with, :string, default: nil
       desc "Replace dollar with specified string"
       config_param :replace_dollar_in_key_with, :string, default: nil
+      desc "Replace _id with specified string"
+      config_param :replace_underbar_id_in_key_with, :string, default: nil
 
       # SSL connection
       config_param :ssl, :bool, default: false
@@ -98,7 +100,8 @@ module Fluent
               value.merge!(document)
             end
           end
-          value.delete('_id')
+          value.delete('_id') # just ignore '_id'
+
           unless value.is_a?(Hash)
             log.error "broken content for plugin storage (Hash required: ignored)", type: json.class
             log.debug "broken content", content: json_string
@@ -158,6 +161,9 @@ module Fluent
         end
         if @replace_dollar_in_key_with
           record = replace_key_of_hash(record, /^\$/, @replace_dollar_in_key_with)
+        end
+        if @replace_underbar_id_in_key_with
+          record = replace_key_of_hash(record, /^_id$/, @replace_underbar_id_in_key_with)
         end
         record
       end
