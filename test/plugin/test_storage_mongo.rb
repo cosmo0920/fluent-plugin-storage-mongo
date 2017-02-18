@@ -152,7 +152,7 @@ class MongoStorageTest < Test::Unit::TestCase
   end
 
   sub_test_case 'configured with path key' do
-    test 'works as storage which stores data into redis' do
+    test 'works as storage which stores data into mongo' do
       storage_path = @path
       conf = config_element('ROOT', '', {}, [config_element('storage', '', {
                                                               'path' => storage_path,
