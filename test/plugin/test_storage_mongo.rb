@@ -224,33 +224,6 @@ class MongoStorageTest < Test::Unit::TestCase
     end
   end
 
-  sub_test_case 'configured with replace_underbar_id_in_key_with' do
-    test 'works as storage which stores data into mongo' do
-      storage_path = @path
-      underbar_id_key = '__id__'
-      storage_conf = {
-        'path' => storage_path,
-        'database' => database_name,
-        'collection' => collection_name,
-        'replace_underbar_id_in_key_with' => underbar_id_key
-      }
-      conf = config_element('ROOT', '', {}, [config_element('storage', '', storage_conf)])
-      @d.configure(conf)
-      @d.start
-      @p = @d.storage_create()
-
-      assert_equal @path, @p.path
-      assert @p.store.empty?
-
-      @p.put('_id', '1')
-      assert_equal '1', @p.get('_id')
-
-      @p.save # stores all data into file
-
-      assert_equal({underbar_id_key=>"1"}, @p.load)
-    end
-  end
-
   sub_test_case 'configured with replace_dot_in_key_with' do
     test 'works as storage which stores data into mongo' do
       storage_path = @path
@@ -302,6 +275,33 @@ class MongoStorageTest < Test::Unit::TestCase
       @p.save # stores all data into file
 
       assert_equal({"#{dollar_key}storage"=>"1"}, @p.load)
+    end
+  end
+
+  sub_test_case 'configured with replace_underbar_id_in_key_with' do
+    test 'works as storage which stores data into mongo' do
+      storage_path = @path
+      underbar_id_key = '__id__'
+      storage_conf = {
+        'path' => storage_path,
+        'database' => database_name,
+        'collection' => collection_name,
+        'replace_underbar_id_in_key_with' => underbar_id_key
+      }
+      conf = config_element('ROOT', '', {}, [config_element('storage', '', storage_conf)])
+      @d.configure(conf)
+      @d.start
+      @p = @d.storage_create()
+
+      assert_equal @path, @p.path
+      assert @p.store.empty?
+
+      @p.put('_id', '1')
+      assert_equal '1', @p.get('_id')
+
+      @p.save # stores all data into file
+
+      assert_equal({underbar_id_key=>"1"}, @p.load)
     end
   end
 end
