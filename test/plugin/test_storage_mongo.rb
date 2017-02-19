@@ -250,4 +250,58 @@ class MongoStorageTest < Test::Unit::TestCase
       assert_equal({underbar_id_key=>"1"}, @p.load)
     end
   end
+
+  sub_test_case 'configured with replace_dot_in_key_with' do
+    test 'works as storage which stores data into mongo' do
+      storage_path = @path
+      dot_key = '__dot__'
+      storage_conf = {
+        'path' => storage_path,
+        'database' => database_name,
+        'collection' => collection_name,
+        'replace_dot_in_key_with' => dot_key
+      }
+      conf = config_element('ROOT', '', {}, [config_element('storage', '', storage_conf)])
+      @d.configure(conf)
+      @d.start
+      @p = @d.storage_create()
+
+      assert_equal @path, @p.path
+      assert @p.store.empty?
+
+      @p.put('mongo.storage', '1')
+      assert_equal '1', @p.get('mongo.storage')
+
+      @p.save # stores all data into file
+
+      assert_equal({"mongo#{dot_key}storage"=>"1"}, @p.load)
+    end
+  end
+
+  sub_test_case 'configured with replace_dot_in_key_with' do
+    test 'works as storage which stores data into mongo' do
+      storage_path = @path
+      dollar_key = '__dollar__'
+      storage_conf = {
+        'path' => storage_path,
+        'database' => database_name,
+        'collection' => collection_name,
+        'replace_dollar_in_key_with' => dollar_key
+      }
+      conf = config_element('ROOT', '', {}, [config_element('storage', '', storage_conf)])
+      @d.configure(conf)
+      @d.start
+      @p = @d.storage_create()
+
+      assert_equal @path, @p.path
+      assert @p.store.empty?
+
+      @p.put('$storage', '1')
+      assert_equal '1', @p.get('$storage')
+
+      @p.save # stores all data into file
+
+      assert_equal({"#{dollar_key}storage"=>"1"}, @p.load)
+    end
+  end
 end
