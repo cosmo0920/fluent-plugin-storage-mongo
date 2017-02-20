@@ -41,6 +41,12 @@ module Fluent
       config_param :ssl_key_pass_phrase, :string, default: nil, secret: true
       config_param :ssl_verify, :bool, default: false
       config_param :ssl_ca_cert, :string, default: nil
+      # Set persistent true by default
+      config_set_default :persistent, true
+
+      def persistent_always?
+        true
+      end
 
       attr_reader :client_options, :collection_options
 

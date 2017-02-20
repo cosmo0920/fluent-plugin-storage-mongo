@@ -78,6 +78,8 @@ class MongoStorageTest < Test::Unit::TestCase
       @d.start
       @p = @d.storage_create()
 
+      assert_true(@p.persistent)
+
       assert_equal('fluent_test', @p.database)
       assert_equal('test', @p.collection)
       assert_equal('localhost', @p.host)
@@ -163,6 +165,7 @@ class MongoStorageTest < Test::Unit::TestCase
       @d.configure(conf)
       @d.start
       @p = @d.storage_create()
+      assert_true(@p.persistent)
 
       assert_equal storage_path, @p.path
       assert @p.store.empty?
@@ -211,6 +214,7 @@ class MongoStorageTest < Test::Unit::TestCase
       @d.configure(conf)
       @d.start
       @p = @d.storage_create(usage: "#{@path}")
+      assert_true(@p.persistent)
 
       assert_equal @path, @p.path
       assert @p.store.empty?
@@ -238,6 +242,7 @@ class MongoStorageTest < Test::Unit::TestCase
       @d.configure(conf)
       @d.start
       @p = @d.storage_create()
+      assert_true(@p.persistent)
 
       assert_equal @path, @p.path
       assert @p.store.empty?
@@ -265,6 +270,7 @@ class MongoStorageTest < Test::Unit::TestCase
       @d.configure(conf)
       @d.start
       @p = @d.storage_create()
+      assert_true(@p.persistent)
 
       assert_equal @path, @p.path
       assert @p.store.empty?
@@ -292,6 +298,7 @@ class MongoStorageTest < Test::Unit::TestCase
       @d.configure(conf)
       @d.start
       @p = @d.storage_create()
+      assert_true(@p.persistent)
 
       assert_equal @path, @p.path
       assert @p.store.empty?
