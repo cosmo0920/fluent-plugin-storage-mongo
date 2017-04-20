@@ -248,7 +248,7 @@ class MongoStorageTest < Test::Unit::TestCase
       assert @p.store.empty?
 
       @p.put('mongo.storage', '1')
-      assert_equal '1', @p.get('mongo.storage')
+      assert_nil @p.get('mongo.storage')
 
       @p.save # stores all data into file
 
@@ -276,7 +276,7 @@ class MongoStorageTest < Test::Unit::TestCase
       assert @p.store.empty?
 
       @p.put('$storage', '1')
-      assert_equal '1', @p.get('$storage')
+      assert_nil @p.get('$storage')
 
       @p.save # stores all data into file
 
@@ -304,7 +304,7 @@ class MongoStorageTest < Test::Unit::TestCase
       assert @p.store.empty?
 
       @p.put('_id', '1')
-      assert_equal '1', @p.get('_id')
+      assert_nil @p.get('_id')
 
       @p.save # stores all data into file
 

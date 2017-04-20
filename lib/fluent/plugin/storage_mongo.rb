@@ -44,10 +44,6 @@ module Fluent
       # Set persistent true by default
       config_set_default :persistent, true
 
-      def persistent_always?
-        true
-      end
-
       attr_reader :client_options, :collection_options
 
       def initialize
