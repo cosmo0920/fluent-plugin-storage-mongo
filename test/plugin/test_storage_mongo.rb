@@ -192,8 +192,15 @@ class MongoStorageTest < Test::Unit::TestCase
       assert_equal({'key1' => '2', 'key2' => 4}, @p.load)
 
       # re-create to reload storage contents
+      re_conf = config_element('ROOT', '', {}, [config_element('storage', '', {
+                                                                 'path' => storage_path,
+                                                                 'database' => database_name,
+                                                                 'collection' => collection_name
+                                                               }
+                                                              )])
+      assert_equal(conf, re_conf)
       @d = MyInput.new
-      @d.configure(conf)
+      @d.configure(re_conf)
       @d.start
       @p = @d.storage_create()
 
